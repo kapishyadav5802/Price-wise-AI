@@ -401,4 +401,232 @@ Do NOT limit advice to groceries. The product may be electronics, mobile phones,
                     <img src={userPhoto} alt="" style={{ width: 38, height: 38, borderRadius: "50%", objectFit: "cover" }} />
                   ) : (
                     <div style={{ width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#4285F4,#34A853)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700 }}>
-         
+         {userName?.[0]?.toUpperCase() || "U"}
+                    </div>
+                  )}
+                  <div style={{ overflow: "hidden" }}>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{userName}</div>
+                    <div style={{ color: "rgba(255,255,255,0.38)", fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{userEmail}</div>
+                  </div>
+                </div>
+                {isOwner && (
+                  <div style={{ marginTop: 8, display: "inline-flex", alignItems: "center", gap: 5, background: "rgba(251,191,36,0.12)", border: "1px solid rgba(251,191,36,0.25)", borderRadius: 20, padding: "3px 10px" }}>
+                    <span style={{ fontSize: 10 }}>⭐</span>
+                    <span style={{ color: "#ffd200", fontSize: 11, fontWeight: 700 }}>Owner Account</span>
+                  </div>
+                )}
+              </div>
+              {/* Logout button — inside profile menu */}
+              <button
+                onClick={doLogout}
+                style={{
+                  width: "100%", padding: "13px 16px",
+                  background: "none", border: "none",
+                  color: "#ff8080", fontSize: 14, fontWeight: 600,
+                  cursor: "pointer", textAlign: "left",
+                  display: "flex", alignItems: "center", gap: 8,
+                }}
+              >
+                <span>🚪</span> Sign Out
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── Tabs ────────────────────────────────────────────────────────────── */}
+      <div style={{ background: "#12122a", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 16px", display: "flex", overflowX: "auto" }}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)} style={{
+            padding: "12px 18px", background: "none", border: "none", cursor: "pointer",
+            fontSize: 13, fontWeight: 700, whiteSpace: "nowrap",
+            color: tab === t.id ? (t.gold ? "#ffd200" : "#a78bfa") : "rgba(255,255,255,0.38)",
+            borderBottom: `2px solid ${tab === t.id ? (t.gold ? "#ffd200" : "#a78bfa") : "transparent"}`,
+            transition: "color 0.15s",
+          }}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      <div style={{ maxWidth: 840, margin: "0 auto", padding: "24px 16px" }}>
+
+        {/* ── SEARCH ──────────────────────────────────────────────────────── */}
+        {tab === "search" && (
+          <div>
+            <h2 style={{ margin: "0 0 20px", fontSize: 21, fontWeight: 800 }}>Find Best Prices</h2>
+            <div style={{ display: "flex", gap: 8, marginBottom: 18 }}>
+              <input
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && doSearch()}
+                placeholder="Search phones, laptops, shoes, any product…"
+                style={{ flex: 1, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 11, padding: "13px 15px", color: "#fff", fontSize: 15, outline: "none" }}
+              />
+              <button onClick={doSearch} disabled={searching} style={{ background: "linear-gradient(135deg,#667eea,#764ba2)", border: "none", borderRadius: 11, padding: "13px 22px", color: "#fff", fontWeight: 700, cursor: "pointer", fontSize: 15, opacity: searching ? 0.7 : 1 }}>
+                {searching ? "…" : "Search"}
+              </button>
+            </div>
+
+            {aiTip && (
+              <div style={{ background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.25)", borderRadius: 11, padding: "13px 15px", marginBottom: 18, fontSize: 13, color: "rgba(255,255,255,0.82)", lineHeight: 1.65 }}>
+                <b style={{ color: "#a78bfa" }}>🤖 AI Tip: </b>{aiTip}
+              </div>
+            )}
+
+            {results.map(p => {
+              const best = p.flipkart <= p.amazon ? "flipkart" : "amazon";
+              const save = Math.abs(p.amazon - p.flipkart);
+              return (
+                <div key={p.id} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: 18, marginBottom: 12 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 13 }}>
+                    <span style={{ fontSize: 34 }}>{p.img}</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 700, fontSize: 15 }}>{p.name}</div>
+                      <div style={{ color: "rgba(255,255,255,0.38)", fontSize: 12, marginTop: 2 }}>{p.category}</div>
+                    </div>
+                    {save > 0 && <div style={{ background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.28)", borderRadius: 7, padding: "4px 10px", fontSize: 11, color: "#34d399", fontWeight: 700 }}>Save {fmt(save)}</div>}
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9 }}>
+                    {[["amazon", "🟠 Amazon", p.amazon], ["flipkart", "🔵 Flipkart", p.flipkart]].map(([plat, label, price]) => (
+                      <button key={plat} onClick={() => buyProduct(p, plat)} style={{
+                        background: best === plat ? "rgba(52,211,153,0.1)" : "rgba(255,255,255,0.03)",
+                        border: `1px solid ${best === plat ? "rgba(52,211,153,0.3)" : "rgba(255,255,255,0.07)"}`,
+                        borderRadius: 11, padding: "13px 11px", cursor: "pointer", textAlign: "left", color: "#fff"
+                      }}>
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 4 }}>{label}</div>
+                        <div style={{ fontSize: 20, fontWeight: 800, color: best === plat ? "#34d399" : "#fff" }}>{fmt(price)}</div>
+                        {best === plat && <div style={{ fontSize: 10, color: "#34d399", fontWeight: 700, marginTop: 3 }}>✓ Best Price</div>}
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.28)", marginTop: 3 }}>Tap to buy →</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+
+            {results.length === 0 && !searching && (
+              <div style={{ textAlign: "center", padding: "48px 0", color: "rgba(255,255,255,0.2)", fontSize: 14 }}>
+                Search for phones, laptops, headphones, shoes and more…
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── COMPARE ─────────────────────────────────────────────────────── */}
+        {tab === "compare" && (
+          <div>
+            <h2 style={{ margin: "0 0 18px", fontSize: 21, fontWeight: 800 }}>Full Price Comparison</h2>
+            <div style={{ overflowX: "auto", borderRadius: 14, border: "1px solid rgba(255,255,255,0.07)" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ background: "rgba(255,255,255,0.04)" }}>
+                    {["Product", "Amazon", "Flipkart", "Best Deal", "You Save"].map(h => (
+                      <th key={h} style={{ padding: "12px 14px", textAlign: "left", color: "rgba(255,255,255,0.4)", fontWeight: 700, fontSize: 11, borderBottom: "1px solid rgba(255,255,255,0.07)" }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {PRODUCTS.map((p, i) => (
+                    <tr key={p.id} style={{ borderBottom: i < PRODUCTS.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+                      <td style={{ padding: "12px 14px", fontWeight: 600 }}>{p.img} {p.name}</td>
+                      <td style={{ padding: "12px 14px", color: p.amazon <= p.flipkart ? "#34d399" : "rgba(255,255,255,0.6)", fontWeight: p.amazon <= p.flipkart ? 700 : 400 }}>{fmt(p.amazon)}</td>
+                      <td style={{ padding: "12px 14px", color: p.flipkart <= p.amazon ? "#34d399" : "rgba(255,255,255,0.6)", fontWeight: p.flipkart <= p.amazon ? 700 : 400 }}>{fmt(p.flipkart)}</td>
+                      <td style={{ padding: "12px 14px", fontWeight: 700, color: "#34d399" }}>{p.flipkart <= p.amazon ? "🔵 Flipkart" : "🟠 Amazon"}</td>
+                      <td style={{ padding: "12px 14px", color: "#fbbf24", fontWeight: 600 }}>{fmt(Math.abs(p.amazon - p.flipkart))}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* ── EARNINGS ────────────────────────────────────────────────────── */}
+        {tab === "earnings" && isOwner && (
+          <div>
+            <h2 style={{ margin: "0 0 4px", fontSize: 21, fontWeight: 800 }}>💰 My Earnings</h2>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, marginBottom: 22 }}>10% commission on every purchase</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 24 }}>
+              {[["Total Earned", fmt(totalEarned), "#34d399"], ["Withdrawn", fmt(withdrawn), "#60a5fa"], ["Available", fmt(available), "#fbbf24"]].map(([l, v, c]) => (
+                <div key={l} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 13, padding: "16px 15px" }}>
+                  <div style={{ color: "rgba(255,255,255,0.38)", fontSize: 11, marginBottom: 5 }}>{l}</div>
+                  <div style={{ fontSize: 20, fontWeight: 900, color: c }}>{v}</div>
+                </div>
+              ))}
+            </div>
+            {earnings.map((e, i) => (
+              <div key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 11, padding: "13px 15px", marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>{e.product}</div>
+                  <div style={{ color: "rgba(255,255,255,0.32)", fontSize: 11, marginTop: 3 }}>{e.platform} · {e.date} · {e.user}</div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 11 }}>{fmt(e.price)}</div>
+                  <div style={{ color: "#34d399", fontWeight: 800, fontSize: 15 }}>+{fmt(e.comm)}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ── WITHDRAW ────────────────────────────────────────────────────── */}
+        {tab === "withdraw" && isOwner && (
+          <div>
+            <h2 style={{ margin: "0 0 4px", fontSize: 21, fontWeight: 800 }}>💸 Withdraw</h2>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, marginBottom: 20 }}>Transfer earnings via PhonePe or Paytm</p>
+            <div style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.18)", borderRadius: 13, padding: "18px 20px", marginBottom: 22 }}>
+              <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginBottom: 5 }}>Available Balance</div>
+              <div style={{ fontSize: 32, fontWeight: 900, color: "#fbbf24" }}>{fmt(available)}</div>
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 700, display: "block", marginBottom: 8, letterSpacing: 0.8 }}>PAYMENT METHOD</label>
+              <div style={{ display: "flex", gap: 8 }}>
+                {[["phonepe", "📲 PhonePe"], ["paytm", "🟦 Paytm"]].map(([m, l]) => (
+                  <button key={m} onClick={() => setWMethod(m)} style={{
+                    flex: 1, padding: "11px 0", borderRadius: 10,
+                    border: `1px solid ${wMethod === m ? "rgba(167,139,250,0.5)" : "rgba(255,255,255,0.08)"}`,
+                    background: wMethod === m ? "rgba(167,139,250,0.12)" : "rgba(255,255,255,0.03)",
+                    color: wMethod === m ? "#a78bfa" : "rgba(255,255,255,0.5)",
+                    cursor: "pointer", fontWeight: 700, fontSize: 13,
+                  }}>{l}</button>
+                ))}
+              </div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 700, display: "block", marginBottom: 7, letterSpacing: 0.8 }}>UPI ID</label>
+              <input value={wUpi} onChange={e => setWUpi(e.target.value)} placeholder="yourname@upi"
+                style={{ width: "100%", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "12px 14px", color: "#fff", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
+            </div>
+            <div style={{ marginBottom: 18 }}>
+              <label style={{ color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 700, display: "block", marginBottom: 7, letterSpacing: 0.8 }}>AMOUNT (₹)</label>
+              <input type="number" value={wAmt} onChange={e => setWAmt(e.target.value)} placeholder="Min ₹100"
+                style={{ width: "100%", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "12px 14px", color: "#fff", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
+            </div>
+            {wMsg && (
+              <div style={{ background: wMsg.startsWith("✅") ? "rgba(52,211,153,0.1)" : "rgba(255,80,80,0.1)", border: `1px solid ${wMsg.startsWith("✅") ? "rgba(52,211,153,0.25)" : "rgba(255,80,80,0.25)"}`, borderRadius: 10, padding: "11px 14px", color: wMsg.startsWith("✅") ? "#34d399" : "#ff8080", fontSize: 13, marginBottom: 14 }}>{wMsg}</div>
+            )}
+            <button onClick={doWithdraw} style={{ width: "100%", padding: "14px 0", background: "linear-gradient(135deg,#f7971e,#ffd200)", border: "none", borderRadius: 12, color: "#000", fontSize: 15, fontWeight: 800, cursor: "pointer" }}>
+              Withdraw Now →
+            </button>
+            {wHistory.length > 0 && (
+              <div style={{ marginTop: 28 }}>
+                <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12, color: "rgba(255,255,255,0.7)" }}>Withdrawal History</h3>
+                {wHistory.map((w, i) => (
+                  <div key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, padding: "12px 14px", marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 14, color: "#fbbf24" }}>{fmt(w.amount)}</div>
+                      <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, marginTop: 2 }}>{w.method === "phonepe" ? "PhonePe" : "Paytm"} · {w.upi} · {w.date}</div>
+                    </div>
+                    <div style={{ background: "rgba(251,191,36,0.12)", border: "1px solid rgba(251,191,36,0.2)", borderRadius: 6, padding: "3px 9px", color: "#fbbf24", fontSize: 11, fontWeight: 700 }}>{w.status}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+            }
