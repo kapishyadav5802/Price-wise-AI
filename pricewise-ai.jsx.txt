@@ -1,0 +1,453 @@
+import { useState, useEffect } from "react";
+
+const OWNER_EMAIL = "kapishyadav5802@gmail.com";
+
+const PRODUCTS = [
+  { id: 1, name: "Sony WH-1000XM5 Headphones", amazon: 24990, flipkart: 23499, img: "🎧", category: "Electronics" },
+  { id: 2, name: "Samsung Galaxy S24 Ultra", amazon: 129999, flipkart: 124999, img: "📱", category: "Mobile" },
+  { id: 3, name: "Apple AirPods Pro", amazon: 24900, flipkart: 22990, img: "🎵", category: "Electronics" },
+  { id: 4, name: "Nike Air Max 270", amazon: 10995, flipkart: 9999, img: "👟", category: "Footwear" },
+  { id: 5, name: "Dyson V15 Vacuum", amazon: 54900, flipkart: 52490, img: "🧹", category: "Home" },
+  { id: 6, name: "MacBook Air M3", amazon: 114900, flipkart: 112990, img: "💻", category: "Computers" },
+];
+
+const fmt = (n) => "₹" + n.toLocaleString("en-IN");
+
+// Google OAuth config
+const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"; // placeholder
+
+export default function App() {
+  const [page, setPage] = useState("login");
+  const [tab, setTab] = useState("search");
+  const [isOwner, setIsOwner] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPic, setUserPic] = useState("");
+  const [loginErr, setLoginErr] = useState("");
+  const [googleReady, setGoogleReady] = useState(false);
+
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [aiTip, setAiTip] = useState("");
+  const [searching, setSearching] = useState(false);
+
+  const [earnings, setEarnings] = useState([
+    { product: "Sony WH-1000XM5", price: 23499, comm: 2350, platform: "Flipkart", date: "2024-06-01", user: "rahul@gmail.com" },
+    { product: "Nike Air Max 270", price: 9999, comm: 1000, platform: "Flipkart", date: "2024-06-03", user: "priya@gmail.com" },
+    { product: "Apple AirPods Pro", price: 22990, comm: 2299, platform: "Flipkart", date: "2024-06-05", user: "amit@gmail.com" },
+  ]);
+  const totalEarned = earnings.reduce((a, e) => a + e.comm, 0);
+  const [withdrawn, setWithdrawn] = useState(0);
+
+  const [wMethod, setWMethod] = useState("phonepe");
+  const [wUpi, setWUpi] = useState("");
+  const [wAmt, setWAmt] = useState("");
+  const [wMsg, setWMsg] = useState("");
+  const [wHistory, setWHistory] = useState([]);
+
+  const available = totalEarned - withdrawn;
+
+  // Load Google Identity Services
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    script.onload = () => setGoogleReady(true);
+    document.head.appendChild(script);
+    return () => { try { document.head.removeChild(script); } catch(e){} };
+  }, []);
+
+  // Handle Google credential response
+  const handleGoogleResponse = (response) => {
+    try {
+      // Decode JWT token from Google
+      const base64 = response.credential.split(".")[1];
+      const pad = base64 + "=".repeat((4 - base64.length % 4) % 4);
+      const payload = JSON.parse(atob(pad));
+      const email = payload.email;
+      const name = payload.name;
+      const picture = payload.picture;
+
+      setUserEmail(email);
+      setUserName(name);
+      setUserPic(picture || "");
+      setIsOwner(email === OWNER_EMAIL);
+      setPage("app");
+      setTab("search");
+      setLoginErr("");
+    } catch (e) {
+      setLoginErr("Google sign-in failed. Please try again.");
+    }
+  };
+
+  // Render Google button
+  useEffect(() => {
+    if (!googleReady || page !== "login") return;
+    const container = document.getElementById("google-btn-container");
+    if (!container) return;
+    container.innerHTML = "";
+    if (window.google && window.google.accounts) {
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleResponse,
+        ux_mode: "popup",
+        auto_select: false,
+      });
+      window.google.accounts.id.renderButton(container, {
+        theme: "filled_blue",
+        size: "large",
+        width: 320,
+        text: "signin_with",
+        shape: "pill",
+        logo_alignment: "left",
+      });
+    }
+  }, [googleReady, page]);
+
+  const doLogout = () => {
+    if (window.google && window.google.accounts) {
+      window.google.accounts.id.disableAutoSelect();
+    }
+    setPage("login");
+    setIsOwner(false);
+    setUserEmail("");
+    setUserName("");
+    setUserPic("");
+    setResults([]);
+    setAiTip("");
+    setQuery("");
+  };
+
+  const doSearch = async () => {
+    if (!query.trim()) return;
+    setSearching(true);
+    setResults([]);
+    setAiTip("");
+    const q = query.toLowerCase();
+    const found = PRODUCTS.filter(p =>
+      p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
+    );
+    await new Promise(r => setTimeout(r, 400));
+    setResults(found.length ? found : PRODUCTS.slice(0, 4));
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 150,
+          messages: [{ role: "user", content: `2-sentence buying tip for "${query}" comparing Amazon vs Flipkart India. Be brief.` }]
+        })
+      });
+      const data = await res.json();
+      if (data.content?.[0]?.text) setAiTip(data.content[0].text);
+    } catch { setAiTip("Check both platforms for bank discounts before buying!"); }
+    setSearching(false);
+  };
+
+  const buyProduct = (product, platform) => {
+    const price = platform === "amazon" ? product.amazon : product.flipkart;
+    const comm = Math.round(price * 0.1);
+    setEarnings(prev => [{
+      product: product.name, price, comm,
+      platform: platform === "amazon" ? "Amazon" : "Flipkart",
+      date: new Date().toISOString().split("T")[0],
+      user: userEmail
+    }, ...prev]);
+    alert(`🛒 Opening ${platform === "amazon" ? "Amazon" : "Flipkart"}\n${product.name}\nPrice: ${fmt(price)}`);
+  };
+
+  const doWithdraw = () => {
+    setWMsg("");
+    const amt = parseInt(wAmt);
+    if (!wUpi.trim()) { setWMsg("Enter your UPI ID."); return; }
+    if (!amt || amt < 100) { setWMsg("Minimum withdrawal is ₹100."); return; }
+    if (amt > available) { setWMsg("Not enough balance. Available: " + fmt(available)); return; }
+    setWHistory(prev => [{
+      amount: amt, method: wMethod, upi: wUpi,
+      date: new Date().toISOString().split("T")[0], status: "Processing"
+    }, ...prev]);
+    setWithdrawn(prev => prev + amt);
+    setWMsg("✅ ₹" + amt + " withdrawal via " + (wMethod === "phonepe" ? "PhonePe" : "Paytm") + " initiated!");
+    setWUpi(""); setWAmt("");
+  };
+
+  // ── LOGIN PAGE ───────────────────────────────────
+  if (page === "login") {
+    return (
+      <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#0f0c29,#302b63,#24243e)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, fontFamily: "sans-serif" }}>
+        <div style={{ background: "rgba(255,255,255,0.06)", backdropFilter: "blur(20px)", borderRadius: 28, padding: "44px 32px", width: "100%", maxWidth: 400, border: "1px solid rgba(255,255,255,0.12)", boxShadow: "0 30px 80px rgba(0,0,0,0.6)", textAlign: "center" }}>
+
+          <div style={{ fontSize: 52, marginBottom: 10 }}>🏷️</div>
+          <h1 style={{ color: "#fff", fontSize: 26, fontWeight: 900, margin: "0 0 6px" }}>PriceWiseAI</h1>
+          <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, margin: "0 0 36px" }}>Smart Price Comparison · India</p>
+
+          <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 16, padding: "24px 20px", marginBottom: 28, border: "1px solid rgba(255,255,255,0.08)" }}>
+            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, margin: "0 0 20px", lineHeight: 1.6 }}>
+              Sign in with your Google account to compare prices on Amazon & Flipkart
+            </p>
+
+            {/* Google Sign-In Button rendered here */}
+            <div id="google-btn-container" style={{ display: "flex", justifyContent: "center", minHeight: 44 }}>
+              {!googleReady && (
+                <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, padding: "12px 0" }}>
+                  Loading Google Sign-In...
+                </div>
+              )}
+            </div>
+          </div>
+
+          {loginErr && (
+            <div style={{ background: "rgba(255,80,80,0.15)", border: "1px solid rgba(255,80,80,0.3)", borderRadius: 10, padding: "10px 14px", color: "#ff8080", fontSize: 13, marginBottom: 16 }}>
+              {loginErr}
+            </div>
+          )}
+
+          <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, margin: 0, lineHeight: 1.6 }}>
+            By signing in, you agree to our Terms of Service.<br/>Your data is safe and never shared.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ── MAIN APP ─────────────────────────────────────
+  const tabs = [
+    { id: "search", label: "🔍 Search" },
+    { id: "compare", label: "⚖️ Compare" },
+    ...(isOwner ? [
+      { id: "earnings", label: "💰 Earnings", gold: true },
+      { id: "withdraw", label: "💸 Withdraw", gold: true }
+    ] : []),
+  ];
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#0d0d1a", fontFamily: "sans-serif", color: "#fff" }}>
+
+      {/* Header */}
+      <div style={{ background: "#16213e", borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "0 16px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, position: "sticky", top: 0, zIndex: 100 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 22 }}>🏷️</span>
+          <span style={{ fontWeight: 800, fontSize: 17 }}>PriceWiseAI</span>
+          {isOwner && (
+            <span style={{ background: "linear-gradient(135deg,#f7971e,#ffd200)", color: "#000", fontSize: 9, fontWeight: 900, padding: "2px 8px", borderRadius: 20 }}>OWNER</span>
+          )}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {userPic ? (
+            <img src={userPic} alt="" style={{ width: 30, height: 30, borderRadius: "50%", border: "2px solid rgba(255,255,255,0.2)" }} />
+          ) : (
+            <div style={{ width: 30, height: 30, borderRadius: "50%", background: "linear-gradient(135deg,#667eea,#764ba2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700 }}>
+              {userName?.[0]?.toUpperCase() || "U"}
+            </div>
+          )}
+          <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{userName}</span>
+          <button onClick={doLogout} style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.65)", padding: "5px 11px", borderRadius: 8, cursor: "pointer", fontSize: 12 }}>
+            Logout
+          </button>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={{ background: "#12122a", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 16px", display: "flex", overflowX: "auto" }}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)}
+            style={{ padding: "12px 16px", background: "none", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 700, whiteSpace: "nowrap",
+              color: tab === t.id ? (t.gold ? "#ffd200" : "#a78bfa") : "rgba(255,255,255,0.38)",
+              borderBottom: `2px solid ${tab === t.id ? (t.gold ? "#ffd200" : "#a78bfa") : "transparent"}` }}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      <div style={{ maxWidth: 820, margin: "0 auto", padding: "22px 14px" }}>
+
+        {/* SEARCH */}
+        {tab === "search" && (
+          <div>
+            <h2 style={{ margin: "0 0 18px", fontSize: 20, fontWeight: 800 }}>Find Best Prices</h2>
+            <div style={{ display: "flex", gap: 8, marginBottom: 18 }}>
+              <input value={query} onChange={e => setQuery(e.target.value)} onKeyDown={e => e.key === "Enter" && doSearch()}
+                placeholder="Search product..." style={{ flex: 1, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "12px 14px", color: "#fff", fontSize: 15, outline: "none" }} />
+              <button onClick={doSearch} disabled={searching}
+                style={{ background: "linear-gradient(135deg,#667eea,#764ba2)", border: "none", borderRadius: 10, padding: "12px 20px", color: "#fff", fontWeight: 700, cursor: "pointer", fontSize: 15 }}>
+                {searching ? "..." : "Search"}
+              </button>
+            </div>
+            {aiTip && (
+              <div style={{ background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.25)", borderRadius: 10, padding: "12px 14px", marginBottom: 16, fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.6 }}>
+                <b style={{ color: "#a78bfa" }}>🤖 AI Tip: </b>{aiTip}
+              </div>
+            )}
+            {results.map(p => {
+              const best = p.flipkart <= p.amazon ? "flipkart" : "amazon";
+              const save = Math.abs(p.amazon - p.flipkart);
+              return (
+                <div key={p.id} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: 18, marginBottom: 12 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                    <span style={{ fontSize: 32 }}>{p.img}</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 700, fontSize: 15 }}>{p.name}</div>
+                      <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 12 }}>{p.category}</div>
+                    </div>
+                    {save > 0 && (
+                      <div style={{ background: "rgba(52,211,153,0.12)", border: "1px solid rgba(52,211,153,0.3)", borderRadius: 7, padding: "3px 9px", fontSize: 11, color: "#34d399", fontWeight: 700 }}>
+                        Save {fmt(save)}
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                    {[["amazon","🟠 Amazon", p.amazon],["flipkart","🔵 Flipkart", p.flipkart]].map(([plat, label, price]) => (
+                      <button key={plat} onClick={() => buyProduct(p, plat)}
+                        style={{ background: best===plat ? "rgba(52,211,153,0.1)" : "rgba(255,255,255,0.03)", border: `1px solid ${best===plat ? "rgba(52,211,153,0.3)" : "rgba(255,255,255,0.07)"}`, borderRadius: 10, padding: "12px 10px", cursor: "pointer", textAlign: "left", color: "#fff" }}>
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 4 }}>{label}</div>
+                        <div style={{ fontSize: 19, fontWeight: 800, color: best===plat ? "#34d399" : "#fff" }}>{fmt(price)}</div>
+                        {best===plat && <div style={{ fontSize: 10, color: "#34d399", fontWeight: 700, marginTop: 2 }}>✓ Best Price</div>}
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", marginTop: 2 }}>Tap to buy →</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* COMPARE */}
+        {tab === "compare" && (
+          <div>
+            <h2 style={{ margin: "0 0 18px", fontSize: 20, fontWeight: 800 }}>Price Comparison</h2>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+                    {["Product","Amazon","Flipkart","Best","Save"].map(h => (
+                      <th key={h} style={{ padding: "10px 12px", textAlign: "left", color: "rgba(255,255,255,0.45)", fontWeight: 700, fontSize: 11 }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {PRODUCTS.map(p => (
+                    <tr key={p.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                      <td style={{ padding: "11px 12px" }}>{p.img} {p.name}</td>
+                      <td style={{ padding: "11px 12px", color: p.amazon<=p.flipkart ? "#34d399" : "rgba(255,255,255,0.65)" }}>{fmt(p.amazon)}</td>
+                      <td style={{ padding: "11px 12px", color: p.flipkart<=p.amazon ? "#34d399" : "rgba(255,255,255,0.65)" }}>{fmt(p.flipkart)}</td>
+                      <td style={{ padding: "11px 12px", fontWeight: 700, color: "#34d399" }}>{p.flipkart<=p.amazon ? "Flipkart" : "Amazon"}</td>
+                      <td style={{ padding: "11px 12px", color: "#fbbf24" }}>{fmt(Math.abs(p.amazon-p.flipkart))}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* EARNINGS - OWNER ONLY */}
+        {tab === "earnings" && isOwner && (
+          <div>
+            <h2 style={{ margin: "0 0 4px", fontSize: 20, fontWeight: 800 }}>💰 My Earnings</h2>
+            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, marginBottom: 22 }}>10% commission on every purchase</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 24 }}>
+              {[["Total",fmt(totalEarned),"#34d399"],["Withdrawn",fmt(withdrawn),"#60a5fa"],["Available",fmt(available),"#fbbf24"]].map(([l,v,c]) => (
+                <div key={l} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, padding: "16px 14px" }}>
+                  <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, marginBottom: 5 }}>{l}</div>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: c }}>{v}</div>
+                </div>
+              ))}
+            </div>
+            {earnings.map((e,i) => (
+              <div key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, padding: "12px 14px", marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>{e.product}</div>
+                  <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, marginTop: 2 }}>{e.platform} · {e.date} · {e.user}</div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11 }}>{fmt(e.price)}</div>
+                  <div style={{ color: "#34d399", fontWeight: 800, fontSize: 15 }}>+{fmt(e.comm)}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* WITHDRAW - OWNER ONLY */}
+        {tab === "withdraw" && isOwner && (
+          <div>
+            <h2 style={{ margin: "0 0 4px", fontSize: 20, fontWeight: 800 }}>💸 Withdraw</h2>
+            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, marginBottom: 20 }}>Transfer via PhonePe or Paytm</p>
+            <div style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.18)", borderRadius: 12, padding: 18, marginBottom: 22 }}>
+              <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 12 }}>Available Balance</div>
+              <div style={{ fontSize: 30, fontWeight: 900, color: "#fbbf24" }}>{fmt(available)}</div>
+            </div>
+            <div style={{ display: "flex", gap: 10, marginBottom: 18 }}>
+              {[["phonepe","📱 PhonePe"],["paytm","💳 Paytm"]].map(([v,l]) => (
+                <button key={v} onClick={() => setWMethod(v)}
+                  style={{ flex:1, padding:"13px 0", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:14,
+                    background: wMethod===v ? (v==="phonepe" ? "rgba(99,102,241,0.2)" : "rgba(16,185,129,0.2)") : "rgba(255,255,255,0.04)",
+                    border:`2px solid ${wMethod===v ? (v==="phonepe" ? "#6366f1":"#10b981") : "rgba(255,255,255,0.08)"}`,
+                    color: wMethod===v ? (v==="phonepe" ? "#818cf8":"#34d399") : "rgba(255,255,255,0.45)" }}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>UPI ID</div>
+              <input value={wUpi} onChange={e => setWUpi(e.target.value)} placeholder={wMethod==="phonepe" ? "9876543210@ybl" : "9876543210@paytm"} autoComplete="off"
+                style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:10, padding:"12px 14px", color:"#fff", fontSize:15, outline:"none", boxSizing:"border-box" }} />
+            </div>
+            <div style={{ marginBottom: 18 }}>
+              <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>AMOUNT (₹)</div>
+              <input type="number" value={wAmt} onChange={e => setWAmt(e.target.value)} placeholder="Min ₹100"
+                style={{ width:"100%", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:10, padding:"12px 14px", color:"#fff", fontSize:15, outline:"none", boxSizing:"border-box" }} />
+              <div style={{ display:"flex", gap:8, marginTop:8 }}>
+                {[500,1000,2000].map(a => (
+                  <button key={a} onClick={() => setWAmt(String(a))}
+                    style={{ padding:"5px 11px", background:"rgba(255,255,255,0.07)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:7, color:"rgba(255,255,255,0.55)", fontSize:12, cursor:"pointer" }}>
+                    {fmt(a)}
+                  </button>
+                ))}
+                {available > 0 && (
+                  <button onClick={() => setWAmt(String(available))}
+                    style={{ padding:"5px 11px", background:"rgba(255,255,255,0.07)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:7, color:"rgba(255,255,255,0.55)", fontSize:12, cursor:"pointer" }}>
+                    Max
+                  </button>
+                )}
+              </div>
+            </div>
+            {wMsg && (
+              <div style={{ padding:"11px 14px", borderRadius:9, marginBottom:14, fontSize:13,
+                background: wMsg.startsWith("✅") ? "rgba(52,211,153,0.1)":"rgba(239,68,68,0.1)",
+                border:`1px solid ${wMsg.startsWith("✅") ? "rgba(52,211,153,0.3)":"rgba(239,68,68,0.3)"}`,
+                color: wMsg.startsWith("✅") ? "#34d399":"#f87171" }}>
+                {wMsg}
+              </div>
+            )}
+            <button onClick={doWithdraw}
+              style={{ width:"100%", padding:"14px 0", border:"none", borderRadius:11, fontWeight:800, fontSize:15, cursor:"pointer",
+                background: wMethod==="phonepe" ? "linear-gradient(135deg,#6366f1,#818cf8)":"linear-gradient(135deg,#10b981,#34d399)", color:"#fff" }}>
+              Withdraw via {wMethod==="phonepe" ? "PhonePe":"Paytm"}
+            </button>
+            {wHistory.length > 0 && (
+              <div style={{ marginTop:24 }}>
+                <div style={{ fontSize:14, fontWeight:700, marginBottom:12, color:"rgba(255,255,255,0.6)" }}>History</div>
+                {wHistory.map((w,i) => (
+                  <div key={i} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:9, padding:"11px 14px", marginBottom:7, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                    <div>
+                      <div style={{ fontWeight:600, fontSize:13 }}>{w.method==="phonepe" ? "📱 PhonePe":"💳 Paytm"}</div>
+                      <div style={{ color:"rgba(255,255,255,0.3)", fontSize:11 }}>{w.upi} · {w.date}</div>
+                    </div>
+                    <div style={{ textAlign:"right" }}>
+                      <div style={{ fontWeight:800, color:"#60a5fa", fontSize:15 }}>{fmt(w.amount)}</div>
+                      <div style={{ fontSize:10, color:"#fbbf24" }}>{w.status}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
