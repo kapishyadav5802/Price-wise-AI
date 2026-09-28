@@ -1,0 +1,8 @@
+# ad/ build artefacts — keep the deliverables, drop the heavy intermediates
+work/
+tools/node_modules/
+tools/package-lock.json
+fonts/src/
+specs/_rendered.json
+audio/bgm.wav
+assets/tx/

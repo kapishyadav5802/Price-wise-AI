@@ -1,0 +1,12 @@
+{"layers":[{"id":"_test","w":1080,"h":1920,"elements":[
+ {"type":"text","text":"BGMI SCRIMS","font":"Anton","size":190,"y":260,
+  "gradient":{"angle":90,"stops":[[0,"#FFE259"],[0.5,"#FFA751"],[1,"#FF5E00"]]},
+  "stroke":{"color":"#1a0a00","width":14},"glow":{"color":"#ff8a00","blur":70},
+  "shadow":{"color":"rgba(0,0,0,0.7)","blur":30,"y":12},"letterSpacing":4},
+ {"type":"text","text":"आज रात 8 बजे","font":"Noto Sans Devanagari","weight":700,"size":120,"y":620,"color":"#ffffff"},
+ {"type":"text","text":"स्क्वाड तैयार है? श्री क्षेत्र — डिस्कॉर्ड","font":"Noto Sans Devanagari","weight":800,"size":84,"y":820,"color":"#22d3ee"},
+ {"type":"text","text":"[YOUR ORG NAME]","font":"Montserrat","weight":800,"size":64,"y":1020,"color":"#ffffff",
+  "plate":{"color":"rgba(10,14,24,0.85)","radius":999,"padX":44,"padY":26,"stroke":{"color":"#22d3ee","width":4}}},
+ {"type":"brackets","x":90,"y":1180,"w":900,"h":420,"color":"#f59e0b","len":80,"width":10},
+ {"type":"text","text":"स्क्वाड बना · स्लॉट बुक कर","font":"Teko","weight":600,"size":110,"y":1300,"color":"#fbbf24"}
+]}]}

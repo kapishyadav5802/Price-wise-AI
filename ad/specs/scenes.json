@@ -1,0 +1,1397 @@
+{
+  "_comment": "Text overlay layers for each scene. Tokens {{org}} {{time}} {{entry}} {{prize}} {{rules}} {{link}} {{handle}} come from content.json",
+  "layers": [
+    {
+      "id": "s1",
+      "w": 1080,
+      "h": 1920,
+      "elements": [
+        {
+          "type": "text",
+          "text": "DAILY CUSTOM ROOM SCRIMS",
+          "font": "Montserrat",
+          "weight": 600,
+          "size": 42,
+          "letterSpacing": 12,
+          "color": "#7dd3fc",
+          "y": 190,
+          "shadow": {
+            "color": "rgba(0,0,0,0.85)",
+            "blur": 22,
+            "y": 4
+          },
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "text",
+          "text": "BGMI\nSCRIMS",
+          "font": "Anton",
+          "size": 200,
+          "lineHeight": 0.98,
+          "y": 268,
+          "gradient": {
+            "angle": 90,
+            "stops": [
+              [
+                0,
+                "#FFF7CC"
+              ],
+              [
+                0.42,
+                "#FFC93C"
+              ],
+              [
+                1,
+                "#FF7A18"
+              ]
+            ]
+          },
+          "stroke": {
+            "color": "#170A00",
+            "width": 17
+          },
+          "glow": {
+            "color": "#FF9D00",
+            "blur": 90,
+            "passes": 2
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.75)",
+            "blur": 34,
+            "y": 14
+          }
+        },
+        {
+          "type": "text",
+          "text": "स्क्वाड तैयार है?",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 108,
+          "maxWidth": 920,
+          "y": 742,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.8)",
+            "width": 10
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 26,
+            "y": 8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{time}} · रोज़ाना · कस्टम रूम्स",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 58,
+          "maxWidth": 980,
+          "y": 908,
+          "color": "#04121f",
+          "plate": {
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  0,
+                  "#22d3ee"
+                ],
+                [
+                  1,
+                  "#0ea5e9"
+                ]
+              ]
+            },
+            "radius": 999,
+            "padX": 52,
+            "padY": 30,
+            "shadow": {
+              "color": "rgba(0,0,0,0.55)",
+              "blur": 40,
+              "y": 8
+            }
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "स्क्वाड बनाओ · स्लॉट बुक करो",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 54,
+          "maxWidth": 1000,
+          "y": 1500,
+          "color": "#ffffff",
+          "plate": {
+            "color": "rgba(5,9,18,0.72)",
+            "radius": 999,
+            "padX": 44,
+            "padY": 24,
+            "stroke": {
+              "color": "rgba(255,255,255,0.18)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "w": 1080,
+      "h": 1920,
+      "elements": [
+        {
+          "type": "text",
+          "text": "{{org}} प्रस्तुत करता है",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 46,
+          "maxWidth": 1000,
+          "y": 150,
+          "color": "#e2f6ff",
+          "plate": {
+            "color": "rgba(5,9,18,0.7)",
+            "radius": 999,
+            "padX": 40,
+            "padY": 22,
+            "stroke": {
+              "color": "rgba(34,211,238,0.55)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "रोज़ाना स्क्रिम्स",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 100,
+          "maxWidth": 940,
+          "y": 285,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.75)",
+            "width": 9
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 24,
+            "y": 8
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "bar",
+          "x": 90,
+          "y": 470,
+          "w": 320,
+          "h": 9,
+          "color": "#f59e0b"
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 560,
+          "w": 28,
+          "h": 28,
+          "radius": 9,
+          "color": "#22d3ee",
+          "shadow": {
+            "color": "rgba(34,211,238,0.8)",
+            "blur": 26,
+            "y": 0
+          }
+        },
+        {
+          "type": "text",
+          "text": "कस्टम रूम + पासवर्ड",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 72,
+          "maxWidth": 820,
+          "align": "left",
+          "x": 160,
+          "y": 536,
+          "color": "#ffffff",
+          "shadow": {
+            "color": "rgba(0,0,0,0.75)",
+            "blur": 20,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 700,
+          "w": 28,
+          "h": 28,
+          "radius": 9,
+          "color": "#22d3ee",
+          "shadow": {
+            "color": "rgba(34,211,238,0.8)",
+            "blur": 26,
+            "y": 0
+          }
+        },
+        {
+          "type": "text",
+          "text": "फेयर प्ले गारंटी",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 72,
+          "maxWidth": 820,
+          "align": "left",
+          "x": 160,
+          "y": 676,
+          "color": "#ffffff",
+          "shadow": {
+            "color": "rgba(0,0,0,0.75)",
+            "blur": 20,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 840,
+          "w": 28,
+          "h": 28,
+          "radius": 9,
+          "color": "#22d3ee",
+          "shadow": {
+            "color": "rgba(34,211,238,0.8)",
+            "blur": 26,
+            "y": 0
+          }
+        },
+        {
+          "type": "text",
+          "text": "रोज़ नया मुक़ाबला",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 72,
+          "maxWidth": 820,
+          "align": "left",
+          "x": 160,
+          "y": 816,
+          "color": "#ffffff",
+          "shadow": {
+            "color": "rgba(0,0,0,0.75)",
+            "blur": 20,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "रूम ID और पासवर्ड डिस्कॉर्ड पर",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 58,
+          "maxWidth": 1000,
+          "y": 1330,
+          "color": "#fde68a",
+          "plate": {
+            "color": "rgba(5,9,18,0.75)",
+            "radius": 999,
+            "padX": 44,
+            "padY": 26,
+            "stroke": {
+              "color": "rgba(253,230,138,0.5)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "w": 1080,
+      "h": 1920,
+      "elements": [
+        {
+          "type": "scrim",
+          "y": 120,
+          "h": 900,
+          "stops": [
+            [
+              0,
+              "rgba(3,6,14,0)"
+            ],
+            [
+              0.18,
+              "rgba(3,6,14,0.5)"
+            ],
+            [
+              0.8,
+              "rgba(3,6,14,0.42)"
+            ],
+            [
+              1,
+              "rgba(3,6,14,0)"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "असली कॉम्पिटिशन",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 100,
+          "maxWidth": 940,
+          "y": 250,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.8)",
+            "width": 10
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 26,
+            "y": 8
+          }
+        },
+        {
+          "type": "text",
+          "text": "जहाँ स्किल ही बोलती है",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 68,
+          "maxWidth": 940,
+          "y": 420,
+          "color": "#7dd3fc",
+          "shadow": {
+            "color": "rgba(0,0,0,0.8)",
+            "blur": 22,
+            "y": 4
+          }
+        },
+        {
+          "type": "brackets",
+          "x": 80,
+          "y": 590,
+          "w": 920,
+          "h": 350,
+          "color": "#f59e0b",
+          "len": 90,
+          "width": 10,
+          "opacity": 0.95
+        },
+        {
+          "type": "text",
+          "text": "{{prize}}",
+          "font": "Anton",
+          "size": 104,
+          "maxWidth": 760,
+          "y": 652,
+          "gradient": {
+            "angle": 90,
+            "stops": [
+              [
+                0,
+                "#FFF7CC"
+              ],
+              [
+                0.5,
+                "#FFD75E"
+              ],
+              [
+                1,
+                "#F59E0B"
+              ]
+            ]
+          },
+          "stroke": {
+            "color": "#1b1000",
+            "width": 12
+          },
+          "glow": {
+            "color": "#ffb703",
+            "blur": 70,
+            "passes": 2
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "रोज़ का प्राइज़ पूल",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 60,
+          "maxWidth": 860,
+          "y": 848,
+          "color": "#fde68a",
+          "shadow": {
+            "color": "rgba(0,0,0,0.8)",
+            "blur": 22,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "टॉप स्क्वाड्स को कैश रिवॉर्ड",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 54,
+          "maxWidth": 1000,
+          "y": 1470,
+          "color": "#ffffff",
+          "plate": {
+            "color": "rgba(5,9,18,0.75)",
+            "radius": 999,
+            "padX": 44,
+            "padY": 24,
+            "stroke": {
+              "color": "rgba(255,255,255,0.2)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "w": 1080,
+      "h": 1920,
+      "elements": [
+        {
+          "type": "text",
+          "text": "सारी डिटेल्स यहाँ",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 96,
+          "maxWidth": 940,
+          "y": 220,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.7)",
+            "width": 9
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 24,
+            "y": 8
+          }
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 420,
+          "w": 900,
+          "h": 226,
+          "radius": 30,
+          "gradient": {
+            "angle": 0,
+            "stops": [
+              [
+                0,
+                "rgba(8,16,30,0.88)"
+              ],
+              [
+                1,
+                "rgba(10,30,48,0.78)"
+              ]
+            ]
+          },
+          "stroke": {
+            "color": "rgba(34,211,238,0.75)",
+            "width": 3
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 40,
+            "y": 12
+          }
+        },
+        {
+          "type": "text",
+          "text": "TIMING",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 38,
+          "letterSpacing": 8,
+          "align": "left",
+          "x": 150,
+          "y": 458,
+          "color": "#22d3ee",
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "text",
+          "text": "{{time}}",
+          "font": "Anton",
+          "size": 88,
+          "align": "left",
+          "x": 150,
+          "y": 512,
+          "color": "#ffffff",
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 682,
+          "w": 900,
+          "h": 226,
+          "radius": 30,
+          "gradient": {
+            "angle": 0,
+            "stops": [
+              [
+                0,
+                "rgba(8,16,30,0.88)"
+              ],
+              [
+                1,
+                "rgba(34,20,8,0.78)"
+              ]
+            ]
+          },
+          "stroke": {
+            "color": "rgba(245,158,11,0.75)",
+            "width": 3
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 40,
+            "y": 12
+          }
+        },
+        {
+          "type": "text",
+          "text": "ENTRY FEE",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 38,
+          "letterSpacing": 8,
+          "align": "left",
+          "x": 150,
+          "y": 720,
+          "color": "#f59e0b",
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "text",
+          "text": "{{entry}} प्रति स्क्वाड",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 66,
+          "align": "left",
+          "x": 150,
+          "y": 774,
+          "color": "#ffffff",
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 944,
+          "w": 900,
+          "h": 226,
+          "radius": 30,
+          "gradient": {
+            "angle": 0,
+            "stops": [
+              [
+                0,
+                "rgba(8,16,30,0.88)"
+              ],
+              [
+                1,
+                "rgba(28,12,36,0.78)"
+              ]
+            ]
+          },
+          "stroke": {
+            "color": "rgba(167,139,250,0.8)",
+            "width": 3
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 40,
+            "y": 12
+          }
+        },
+        {
+          "type": "text",
+          "text": "RULES",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 38,
+          "letterSpacing": 8,
+          "align": "left",
+          "x": 150,
+          "y": 982,
+          "color": "#a78bfa",
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "text",
+          "text": "{{rules}}",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 58,
+          "align": "left",
+          "x": 150,
+          "y": 1036,
+          "color": "#ffffff",
+          "maxWidth": 790
+        },
+        {
+          "type": "text",
+          "text": "पूरी जानकारी और रूम ID — डिस्कॉर्ड पर",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 56,
+          "maxWidth": 900,
+          "y": 1310,
+          "color": "#e2f6ff",
+          "plate": {
+            "color": "rgba(5,9,18,0.78)",
+            "radius": 999,
+            "padX": 44,
+            "padY": 24,
+            "stroke": {
+              "color": "rgba(34,211,238,0.45)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "w": 1080,
+      "h": 1920,
+      "elements": [
+        {
+          "type": "text",
+          "text": "जीतो और कमाओ",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 104,
+          "maxWidth": 940,
+          "y": 220,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.8)",
+            "width": 10
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 26,
+            "y": 8
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "{{prize}}",
+          "font": "Anton",
+          "size": 118,
+          "maxWidth": 850,
+          "y": 430,
+          "gradient": {
+            "angle": 90,
+            "stops": [
+              [
+                0,
+                "#FFF7CC"
+              ],
+              [
+                0.5,
+                "#FFD75E"
+              ],
+              [
+                1,
+                "#F59E0B"
+              ]
+            ]
+          },
+          "stroke": {
+            "color": "#1b1000",
+            "width": 13
+          },
+          "glow": {
+            "color": "#ffb703",
+            "blur": 80,
+            "passes": 2
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "डेली प्राइज़ पूल",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 64,
+          "maxWidth": 900,
+          "y": 610,
+          "color": "#7dd3fc",
+          "shadow": {
+            "color": "rgba(0,0,0,0.8)",
+            "blur": 22,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "एंट्री फीस {{entry}} प्रति स्क्वाड",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 58,
+          "maxWidth": 900,
+          "y": 800,
+          "color": "#04121f",
+          "plate": {
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  0,
+                  "#22d3ee"
+                ],
+                [
+                  1,
+                  "#0ea5e9"
+                ]
+              ]
+            },
+            "radius": 999,
+            "padX": 50,
+            "padY": 26,
+            "shadow": {
+              "color": "rgba(0,0,0,0.5)",
+              "blur": 36,
+              "y": 8
+            }
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "पेआउट हर रोज़",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 58,
+          "maxWidth": 900,
+          "y": 950,
+          "color": "#fde68a",
+          "plate": {
+            "color": "rgba(5,9,18,0.75)",
+            "radius": 999,
+            "padX": 50,
+            "padY": 26,
+            "stroke": {
+              "color": "rgba(253,230,138,0.5)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "स्लॉट्स लिमिटेड — पहले आओ, पहले पाओ",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 52,
+          "maxWidth": 940,
+          "y": 1470,
+          "color": "#ffffff",
+          "plate": {
+            "color": "rgba(5,9,18,0.75)",
+            "radius": 999,
+            "padX": 44,
+            "padY": 24,
+            "stroke": {
+              "color": "rgba(255,255,255,0.2)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        }
+      ]
+    },
+    {
+      "id": "s6",
+      "w": 1080,
+      "h": 1920,
+      "elements": [
+        {
+          "type": "text",
+          "text": "चिकन डिनर",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 132,
+          "maxWidth": 940,
+          "y": 200,
+          "gradient": {
+            "angle": 90,
+            "stops": [
+              [
+                0,
+                "#FFF7CC"
+              ],
+              [
+                0.5,
+                "#FFD75E"
+              ],
+              [
+                1,
+                "#F59E0B"
+              ]
+            ]
+          },
+          "stroke": {
+            "color": "#1b1000",
+            "width": 13
+          },
+          "glow": {
+            "color": "#ffb703",
+            "blur": 75,
+            "passes": 2
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.7)",
+            "blur": 30,
+            "y": 10
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "अपने नाम करो",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 92,
+          "maxWidth": 940,
+          "y": 400,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.8)",
+            "width": 10
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 26,
+            "y": 8
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "{{org}}",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 56,
+          "maxWidth": 900,
+          "y": 570,
+          "color": "#ffffff",
+          "plate": {
+            "color": "rgba(5,9,18,0.78)",
+            "radius": 999,
+            "padX": 46,
+            "padY": 26,
+            "stroke": {
+              "color": "rgba(255,183,3,0.7)",
+              "width": 3
+            },
+            "shadow": {
+              "color": "rgba(0,0,0,0.5)",
+              "blur": 34,
+              "y": 8
+            }
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "टॉप स्क्वाड्स को कैश रिवॉर्ड",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 54,
+          "maxWidth": 940,
+          "y": 1470,
+          "color": "#ffffff",
+          "plate": {
+            "color": "rgba(5,9,18,0.75)",
+            "radius": 999,
+            "padX": 44,
+            "padY": 24,
+            "stroke": {
+              "color": "rgba(255,255,255,0.2)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        }
+      ]
+    },
+    {
+      "id": "s7",
+      "w": 1080,
+      "h": 1920,
+      "elements": [
+        {
+          "type": "scrim",
+          "y": 150,
+          "h": 1470,
+          "stops": [
+            [
+              0,
+              "rgba(3,6,14,0)"
+            ],
+            [
+              0.1,
+              "rgba(3,6,14,0.66)"
+            ],
+            [
+              0.88,
+              "rgba(3,6,14,0.66)"
+            ],
+            [
+              1,
+              "rgba(3,6,14,0)"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "कैसे जॉइन करें?",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 100,
+          "maxWidth": 940,
+          "y": 200,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.8)",
+            "width": 10
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 26,
+            "y": 8
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 352,
+          "w": 84,
+          "h": 84,
+          "radius": 999,
+          "color": "#22d3ee",
+          "shadow": {
+            "color": "rgba(34,211,238,0.75)",
+            "blur": 30,
+            "y": 0
+          }
+        },
+        {
+          "type": "text",
+          "text": "1",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 46,
+          "y": 368,
+          "x": 132,
+          "color": "#04121f"
+        },
+        {
+          "type": "text",
+          "text": "स्क्वाड बनाओ",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 70,
+          "align": "left",
+          "x": 220,
+          "y": 364,
+          "color": "#ffffff",
+          "shadow": {
+            "color": "rgba(0,0,0,0.75)",
+            "blur": 20,
+            "y": 4
+          },
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 492,
+          "w": 84,
+          "h": 84,
+          "radius": 999,
+          "color": "#22d3ee",
+          "shadow": {
+            "color": "rgba(34,211,238,0.75)",
+            "blur": 30,
+            "y": 0
+          }
+        },
+        {
+          "type": "text",
+          "text": "2",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 46,
+          "y": 508,
+          "x": 132,
+          "color": "#04121f"
+        },
+        {
+          "type": "text",
+          "text": "स्लॉट बुक करो",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 70,
+          "align": "left",
+          "x": 220,
+          "y": 504,
+          "color": "#ffffff",
+          "shadow": {
+            "color": "rgba(0,0,0,0.75)",
+            "blur": 20,
+            "y": 4
+          },
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "rect",
+          "x": 90,
+          "y": 632,
+          "w": 84,
+          "h": 84,
+          "radius": 999,
+          "color": "#22d3ee",
+          "shadow": {
+            "color": "rgba(34,211,238,0.75)",
+            "blur": 30,
+            "y": 0
+          }
+        },
+        {
+          "type": "text",
+          "text": "3",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 46,
+          "y": 648,
+          "x": 132,
+          "color": "#04121f"
+        },
+        {
+          "type": "text",
+          "text": "रूम ID लेकर जॉइन करो",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 70,
+          "maxWidth": 780,
+          "align": "left",
+          "x": 220,
+          "y": 644,
+          "color": "#ffffff",
+          "shadow": {
+            "color": "rgba(0,0,0,0.75)",
+            "blur": 20,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "डिस्कॉर्ड जॉइन करो",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 76,
+          "maxWidth": 940,
+          "y": 800,
+          "color": "#7dd3fc",
+          "shadow": {
+            "color": "rgba(0,0,0,0.8)",
+            "blur": 22,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "rect",
+          "x": 330,
+          "y": 930,
+          "w": 420,
+          "h": 400,
+          "radius": 40,
+          "color": "rgba(255,255,255,0.10)",
+          "stroke": {
+            "color": "rgba(34,211,238,0.85)",
+            "width": 5
+          },
+          "shadow": {
+            "color": "rgba(34,211,238,0.35)",
+            "blur": 60,
+            "y": 0
+          }
+        },
+        {
+          "type": "brackets",
+          "x": 300,
+          "y": 900,
+          "w": 480,
+          "h": 460,
+          "color": "#22d3ee",
+          "len": 70,
+          "width": 8
+        },
+        {
+          "type": "text",
+          "text": "[QR CODE]",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 48,
+          "y": 1085,
+          "color": "#ffffff",
+          "shadow": {
+            "color": "rgba(0,0,0,0.7)",
+            "blur": 20,
+            "y": 4
+          },
+          "fit": "shrink",
+          "maxWidth": 1000
+        },
+        {
+          "type": "text",
+          "text": "{{link}}",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 42,
+          "maxWidth": 940,
+          "y": 1430,
+          "color": "#e2f6ff",
+          "plate": {
+            "color": "rgba(5,9,18,0.78)",
+            "radius": 999,
+            "padX": 44,
+            "padY": 24,
+            "stroke": {
+              "color": "rgba(34,211,238,0.5)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "{{handle}}",
+          "font": "Montserrat",
+          "weight": 700,
+          "size": 40,
+          "maxWidth": 900,
+          "y": 1520,
+          "color": "#fde68a",
+          "fit": "shrink"
+        }
+      ]
+    },
+    {
+      "id": "s8",
+      "w": 1080,
+      "h": 1920,
+      "elements": [
+        {
+          "type": "text",
+          "text": "BGMI SCRIMS · DAILY CUSTOM ROOMS",
+          "font": "Montserrat",
+          "weight": 700,
+          "size": 38,
+          "letterSpacing": 6,
+          "maxWidth": 900,
+          "y": 260,
+          "color": "#7dd3fc",
+          "shadow": {
+            "color": "rgba(0,0,0,0.9)",
+            "blur": 24,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "{{org}}",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 72,
+          "maxWidth": 900,
+          "y": 330,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.8)",
+            "width": 8
+          },
+          "glow": {
+            "color": "#22d3ee",
+            "blur": 60,
+            "passes": 2
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.7)",
+            "blur": 28,
+            "y": 8
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "जॉइन करो आज ही",
+          "font": "Noto Sans Devanagari",
+          "weight": 800,
+          "size": 100,
+          "maxWidth": 940,
+          "y": 445,
+          "color": "#ffffff",
+          "stroke": {
+            "color": "rgba(0,0,0,0.8)",
+            "width": 10
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.6)",
+            "blur": 26,
+            "y": 8
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "{{time}}",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 56,
+          "maxWidth": 900,
+          "y": 620,
+          "color": "#04121f",
+          "plate": {
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  0,
+                  "#22d3ee"
+                ],
+                [
+                  1,
+                  "#0ea5e9"
+                ]
+              ]
+            },
+            "radius": 999,
+            "padX": 50,
+            "padY": 26,
+            "shadow": {
+              "color": "rgba(0,0,0,0.5)",
+              "blur": 34,
+              "y": 8
+            }
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "एंट्री {{entry}} · प्राइज़ {{prize}}",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 46,
+          "maxWidth": 880,
+          "y": 762,
+          "color": "#fde68a",
+          "plate": {
+            "color": "rgba(5,9,18,0.78)",
+            "radius": 999,
+            "padX": 46,
+            "padY": 26,
+            "stroke": {
+              "color": "rgba(253,230,138,0.5)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "{{link}}",
+          "font": "Montserrat",
+          "weight": 800,
+          "size": 52,
+          "maxWidth": 900,
+          "y": 930,
+          "color": "#ffffff",
+          "glow": {
+            "color": "#22d3ee",
+            "blur": 55,
+            "passes": 2
+          },
+          "shadow": {
+            "color": "rgba(0,0,0,0.8)",
+            "blur": 26,
+            "y": 6
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "{{handle}}",
+          "font": "Montserrat",
+          "weight": 700,
+          "size": 44,
+          "maxWidth": 900,
+          "y": 1050,
+          "color": "#fde68a",
+          "shadow": {
+            "color": "rgba(0,0,0,0.8)",
+            "blur": 22,
+            "y": 4
+          },
+          "fit": "shrink"
+        },
+        {
+          "type": "text",
+          "text": "स्क्वाड बना · स्लॉट बुक कर · चिकन डिनर",
+          "font": "Noto Sans Devanagari",
+          "weight": 700,
+          "size": 50,
+          "maxWidth": 940,
+          "y": 1470,
+          "color": "#ffffff",
+          "plate": {
+            "color": "rgba(5,9,18,0.75)",
+            "radius": 999,
+            "padX": 44,
+            "padY": 24,
+            "stroke": {
+              "color": "rgba(255,255,255,0.2)",
+              "width": 2
+            }
+          },
+          "fit": "shrink"
+        }
+      ]
+    }
+  ]
+}

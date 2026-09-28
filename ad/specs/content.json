@@ -1,0 +1,10 @@
+{
+  "_comment": "EDIT THIS FILE to put your real scrim details on screen, then re-run: python3 ad/tools/build_ad.py",
+  "org": "[YOUR ORG NAME]",
+  "time": "[TIME]",
+  "entry": "[₹ ___]",
+  "prize": "[₹ PRIZE POOL]",
+  "rules": "[RULES]",
+  "link": "[DISCORD LINK]",
+  "handle": "@YOUR_HANDLE"
+}
