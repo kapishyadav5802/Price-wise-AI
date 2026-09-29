@@ -2,12 +2,72 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PriceWiseAI – Smart Price Comparison</title>
-    <meta name="description" content="Compare product prices on Amazon & Flipkart with AI-powered buying tips." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
+    <meta name="theme-color" content="#04050A" />
+    <meta name="color-scheme" content="dark" />
+    <!-- installed-app (PWA) metadata -->
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="WarGrid" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <!-- iOS launch screens (device-exact, so installed iOS apps get the arena splash) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="./icons/startup-750x1334.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="./icons/startup-828x1792.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="./icons/startup-1125x2436.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="./icons/startup-1242x2688.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" href="./icons/startup-1170x2532.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" href="./icons/startup-1284x2778.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)" href="./icons/startup-1179x2556.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="./icons/startup-1290x2796.png" />
+    <title>WarGrid — Play. Compete. Conquer.</title>
+    <meta
+      name="description"
+      content="WarGrid is India's premium BGMI scrims & tournament platform. Discover, book and manage scrims and tournaments, release room IDs, track results and climb the leaderboard."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2304050A'/%3E%3Cpath d='M14 16h9l6 20 6-20h9l-11 32h-8z' fill='%232D7DFF'/%3E%3Cpath d='M38 16h9l4 12-4 12h-9l4-12z' fill='%23E8FF3A'/%3E%3C/svg%3E"
+    />
     <style>
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      body { background: #0d0d1a; }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body,
+      #root {
+        height: 100%;
+      }
+      body {
+        background: #04050a;
+        color: #f4f7ff;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      /* pre-hydration boot glow */
+      #root:empty::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(60% 40% at 50% 0%, rgba(45, 125, 255, 0.18), transparent 70%),
+          radial-gradient(50% 35% at 50% 100%, rgba(232, 255, 58, 0.08), transparent 70%),
+          #04050a;
+      }
     </style>
   </head>
   <body>

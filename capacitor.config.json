@@ -1,0 +1,33 @@
+{
+  "appId": "com.wargrid.esports",
+  "appName": "WarGrid",
+  "webDir": "dist",
+  "backgroundColor": "#04050a",
+  "android": {
+    "backgroundColor": "#04050a",
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowTimeout": 1200,
+      "launchAutoHide": true,
+      "backgroundColor": "#04050a",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "splashFullScreen": true,
+      "splashImmersive": true,
+      "launchFadeInDuration": 220
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#04050a",
+      "overlaysWebView": false
+    }
+  }
+}

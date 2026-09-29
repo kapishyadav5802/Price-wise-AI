@@ -1,0 +1,67 @@
+# Builds an installable debug APK of the WarGrid Capacitor shell.
+# Triggered by pushes to the session branch (and manually once the file
+# reaches the default branch). The runner provides JDK + Android SDK;
+# this sandbox cannot compile Android, CI can.
+name: Android APK
+
+on:
+  push:
+    branches: [arena/01a0e904-price-wise-ai]
+    paths:
+      - "android/**"
+      - "src/**"
+      - "public/**"
+      - "index.html"
+      - "main.jsx"
+      - "package.json"
+      - "package-lock.json"
+      - "capacitor.config.json"
+      - "vite.config.js"
+      - ".github/workflows/android-apk.yml"
+  workflow_dispatch:
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install deps & build the web app
+        run: |
+          npm ci
+          npm run build
+
+      - name: Sync web build into the Capacitor project
+        run: npx cap sync android
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Accept Android SDK licenses & ensure platform 36
+        shell: bash
+        run: |
+          SDKM="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKM" --licenses >/dev/null 2>&1 || true
+          yes | "$SDKM" "platforms;android-36" "build-tools;36.0.0" >/dev/null 2>&1 || true
+
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Rename artifact
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk wargrid-debug.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wargrid-apk
+          path: wargrid-debug.apk
+          retention-days: 30
+          if-no-files-found: error

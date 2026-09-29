@@ -1,0 +1,46 @@
+{
+  "id": "com.wargrid.esports",
+  "name": "WarGrid — Play. Compete. Conquer.",
+  "short_name": "WarGrid",
+  "description": "India's premium BGMI scrims & tournament platform. Discover battles, book your squad, get room IDs at drop time and climb the leaderboard.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#04050a",
+  "theme_color": "#04050a",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["games", "sports", "entertainment"],
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-1024.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "./icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book your battle",
+      "short_name": "Book",
+      "description": "Jump straight into tournament discovery",
+      "url": "./index.html#/tournaments",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "My matches",
+      "short_name": "Matches",
+      "description": "Room IDs, results and points",
+      "url": "./index.html#/matches",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Wallet",
+      "short_name": "Wallet",
+      "description": "Balance, winnings and withdrawals",
+      "url": "./index.html#/wallet",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
